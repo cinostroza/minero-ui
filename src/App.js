@@ -1,46 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
 import InvoiceTable from "./components/InvoiceTable/InvoiceTable";
+import {Container, Row, Col, Card} from "react-bootstrap";
+import {useState} from "react";
+import FileUploadPage from "./components/FileUploadPage/FileUploadPage";
 
-const INVOICE_DATA = {
-  "data": {
-    "invoiceById": {
-      "id": "1",
-      "supplier": {
-        "name": "Carlos",
-        "rut": "15.188.350-8"
-      },
-      "date": "2022-02-14",
-      "number": "123456",
-      "item": [
-        {
-          "product": {
-            "name": "Escoba"
-          },
-          "quantity": 10,
-          "units": "each",
-          "cost": 123,
-          "discount": 0
-        },
-        {
-          "product": {
-            "name": "Escobillon municipal"
-          },
-          "quantity": 20,
-          "units": "each",
-          "cost": 1550,
-          "discount": 0
-        }
-      ]
-    }
-  }
-}
 
 function App() {
+
+  const [invoiceData, setInvoiceData] = useState()
+
+  const fileUploadHandler = (data) => {
+    localStorage.setItem('data', JSON.stringify(data, null, 2));
+    setInvoiceData(data);
+  }
+
+  const cancelHandler = () => {
+    setInvoiceData()
+  }
+
   return (
-    <div className="App">
-      <InvoiceTable invoice={INVOICE_DATA}/>
-    </div>
+      <Card>
+          <Container>
+            <Row>
+              <Col>
+                {!invoiceData && <FileUploadPage onFileUpload={fileUploadHandler}/>}
+                {invoiceData && <InvoiceTable onCancel={cancelHandler} invoice={invoiceData}/>}
+              </Col>
+            </Row>
+          </Container>
+      </Card>
   );
 }
 
