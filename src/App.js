@@ -1,6 +1,6 @@
 import './App.css';
 import InvoiceTable from "./components/InvoiceTable/InvoiceTable";
-import {Container, Row, Col, Card} from "react-bootstrap";
+import {Container} from "react-bootstrap";
 import {useState} from "react";
 import FileUploadPage from "./components/FileUploadPage/FileUploadPage";
 
@@ -19,16 +19,10 @@ function App() {
   }
 
   return (
-      <Card>
-          <Container>
-            <Row>
-              <Col>
-                {!invoiceData && <FileUploadPage onFileUpload={fileUploadHandler}/>}
-                {invoiceData && <InvoiceTable onCancel={cancelHandler} invoice={invoiceData}/>}
-              </Col>
-            </Row>
-          </Container>
-      </Card>
+      <Container>
+        {!invoiceData && <FileUploadPage onFileUpload={fileUploadHandler}/>}
+        {invoiceData && <InvoiceTable onCancel={cancelHandler} invoice={invoiceData}/>}
+      </Container>
   );
 }
 
